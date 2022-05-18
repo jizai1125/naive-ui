@@ -4,7 +4,7 @@
 
 <template>
   <n-space vertical>
-    <n-steps :current="(current as number)" :status="currentStatus">
+    <n-steps v-model:current="current" :status="currentStatus">
       <n-step
         title="I Me Mine"
         description="All through the day, I me mine I me mine, I me mine"
@@ -68,18 +68,18 @@ export default defineComponent({
     MdArrowRoundForward
   },
   setup () {
-    const currentRef = ref<number | null>(1)
+    const currentRef = ref<number>(1)
     return {
       currentStatus: ref<StepsProps['status']>('process'),
       current: currentRef,
       next () {
-        if (currentRef.value === null) currentRef.value = 1
-        else if (currentRef.value >= 4) currentRef.value = null
+        if (currentRef.value === -1) currentRef.value = 1
+        else if (currentRef.value >= 4) currentRef.value = -1
         else currentRef.value++
       },
       prev () {
-        if (currentRef.value === 0) currentRef.value = null
-        else if (currentRef.value === null) currentRef.value = 4
+        if (currentRef.value === 0) currentRef.value = -1
+        else if (currentRef.value === -1) currentRef.value = 4
         else currentRef.value--
       }
     }

@@ -17,7 +17,8 @@ import {
   createInjectionKey,
   ExtractPublicPropTypes,
   flatten,
-  getSlot
+  getSlot,
+  call
 } from '../../_utils'
 import type { StepsTheme } from '../styles'
 
@@ -45,7 +46,9 @@ const stepsProps = {
     type: String as PropType<'small' | 'medium'>,
     default: 'medium'
   },
-  vertical: Boolean
+  vertical: Boolean,
+  'onUpdate:current': Function as PropType<(value: number) => void>,
+  onUpdateCurrent: Function as PropType<(value: number) => void>
 }
 
 export interface StepsInjection {
@@ -78,12 +81,27 @@ export default defineComponent({
       mergedClsPrefixRef,
       stepsSlots: slots
     })
+
+    function doUpdateValue (value: number): void {
+      const { 'onUpdate:current': _onUpdateCurrent, onUpdateCurrent } = props
+      console.log(props)
+      if (_onUpdateCurrent) call(_onUpdateCurrent, value)
+      if (onUpdateCurrent) call(onUpdateCurrent, value)
+    }
+
     return {
-      mergedClsPrefix: mergedClsPrefixRef
+      mergedClsPrefix: mergedClsPrefixRef,
+      doUpdateValue
     }
   },
   render () {
     const { mergedClsPrefix } = this
+    const aa = stepsWithIndex(flatten(getSlot(this)))
+    aa.forEach((a: any) => {
+      a.props.onClick = () => {
+        this.doUpdateValue(a.props.internalIndex as number)
+      }
+    })
     return (
       <div
         class={[
@@ -91,7 +109,7 @@ export default defineComponent({
           this.vertical && `${mergedClsPrefix}-steps--vertical`
         ]}
       >
-        {stepsWithIndex(flatten(getSlot(this)))}
+        {aa}
       </div>
     )
   }
