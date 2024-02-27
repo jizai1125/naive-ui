@@ -48,11 +48,11 @@ export default cB('scrollbar', `
         left: 2px;
         right: 2px;
         bottom: 4px;
-        height: var(--n-scrollbar-height);
+        height: var(--n-scrollbar-x-height);
       `, [
         c('>', [
           cE('scrollbar', `
-            height: var(--n-scrollbar-height);
+            height: var(--n-scrollbar-x-height);
             border-radius: var(--n-scrollbar-border-radius);
             right: 0;
           `)
@@ -62,11 +62,11 @@ export default cB('scrollbar', `
         right: 4px;
         top: 2px;
         bottom: 2px;
-        width: var(--n-scrollbar-width);
+        width: var(--n-scrollbar-y-width);
       `, [
         c('>', [
           cE('scrollbar', `
-            width: var(--n-scrollbar-width);
+            width: var(--n-scrollbar-y-width);
             border-radius: var(--n-scrollbar-border-radius);
             bottom: 0;
           `)
